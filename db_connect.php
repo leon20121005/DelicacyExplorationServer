@@ -4,40 +4,48 @@
     define('DB_DATABASE', "android_test"); //資料庫名字
     define('DB_SERVER', "localhost"); //資料庫伺服器
 
-    class DB_CONNECT
+    class DBConnection
     {
-        //Constructor
-        function __construct()
+        // Constructor
+        function __Construct()
         {
-            $this -> connect();
+            $this -> Connect();
         }
 
-        //Destructor
-        function __destruct()
+        // Destructor
+        function __Destruct()
         {
-            $this -> close();
+            $this -> Close();
         }
 
         //連接至資料庫
-        function connect()
+        function Connect()
         {
-            //Connecting to mysql database
-            $connect = mysql_connect(DB_SERVER, DB_USER, DB_PASSWORD) or die(mysql_error());
+            // Connect to the mysql server
+            $connection = mysql_connect(DB_SERVER, DB_USER, DB_PASSWORD);
+            if (!$connection)
+            {
+                die("Not connected: " . mysql_error());
+            }
 
-            //Set encoding to UTF-8
+            // Set encoding to UTF-8
             mysql_query("SET NAMES UTF8");
 
-            //Selecing database
-            $database = mysql_select_db(DB_DATABASE) or die(mysql_error()) or die(mysql_error());
+            // Select the active database
+            $isSelected = mysql_select_db(DB_DATABASE);
+            if (!$isSelected)
+            {
+                die("Can not use database: " . mysql_error());
+            }
 
-            //Returing connection cursor
-            return $connect;
+            // Return the connection cursor
+            return $connection;
         }
 
         //關閉至資料庫的連接
-        function close()
+        function Close()
         {
-            //Closing db connection
+            // Close database connection
             mysql_close();
         }
     }

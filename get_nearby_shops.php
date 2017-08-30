@@ -8,8 +8,20 @@
     // Connecting to db
     $database = new DBConnection();
 
-    // Get all shops from shops table
-    $query = "SELECT * FROM shops";
+    // Get parameters from URL
+    $latitude = $_GET["lat"];
+    $longitude = $_GET["lng"];
+    $radius = $_GET["radius"];
+    $limit = $_GET["limit"];
+
+    // Get conditional shops from shops table. 6371 = earth radius (km)
+    $query = "SELECT *,".
+            " (6371 * acos(cos(radians($latitude)) * cos(radians(latitude)) * cos(radians(longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(latitude))))".
+            " AS distance".
+            " FROM shops".
+            " HAVING distance < $radius".
+            " ORDER BY distance".
+            " LIMIT 0, $limit";
     $result = mysql_query($query);
     if (!$result)
     {
@@ -54,3 +66,4 @@
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 ?>
+<?php
