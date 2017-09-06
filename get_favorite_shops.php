@@ -12,6 +12,7 @@
     $id_list = json_decode($_POST["id_list"]);
     $latitude = $_POST["latitude"];
     $longitude = $_POST["longitude"];
+    $order = $_POST["order"];
 
     // Create query condition WHERE
     $is_first_element = true;
@@ -30,12 +31,23 @@
     }
 
     // Get conditional shops from shops table. 6371 = earth radius (km)
-    $query = "SELECT *,".
-            " (6371 * acos(cos(radians($latitude)) * cos(radians(latitude)) * cos(radians(longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(latitude))))".
-            " AS distance".
-            " FROM shops".
-            " WHERE id IN ($id_list_string)".
-            " ORDER BY distance";
+    if ($order == "distance")
+    {
+        $query = "SELECT *,".
+                " (6371 * acos(cos(radians($latitude)) * cos(radians(latitude)) * cos(radians(longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(latitude))))".
+                " AS distance".
+                " FROM shops".
+                " WHERE id IN ($id_list_string)".
+                " ORDER BY $order";
+    }
+    else
+    {
+        $query = "SELECT *".
+                " FROM shops".
+                " WHERE id IN ($id_list_string)".
+                " ORDER BY $order";
+    }
+
     $result = mysql_query($query);
     if (!$result)
     {
