@@ -5,6 +5,7 @@
     // Connecting to db
     $database = new DBConnection();
 
+    // Get parameters from URL
     $id = $_GET["id"];
 
     $query = "SELECT * FROM images WHERE id = $id";
