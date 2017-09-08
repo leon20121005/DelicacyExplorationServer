@@ -1,8 +1,8 @@
 <?php
-    define('DB_USER', "root"); //資料庫使用者
-    define('DB_PASSWORD', ""); //資料庫密碼
-    define('DB_DATABASE', "android_test"); //資料庫名字
-    define('DB_SERVER', "localhost"); //資料庫伺服器
+    define("DB_USER", "root"); //資料庫使用者
+    define("DB_PASSWORD", ""); //資料庫密碼
+    define("DB_DATABASE", "android_test"); //資料庫名字
+    define("DB_SERVER", "localhost"); //資料庫伺服器
 
     class DBConnection
     {

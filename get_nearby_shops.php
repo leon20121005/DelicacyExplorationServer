@@ -3,7 +3,7 @@
     $response = array();
 
     // Include database connection class
-    require_once __DIR__ . '/db_connect.php';
+    require_once __DIR__ . "/db_connect.php";
 
     // Connecting to db
     $database = new DBConnection();
@@ -66,4 +66,3 @@
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 ?>
-<?php
