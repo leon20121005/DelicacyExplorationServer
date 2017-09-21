@@ -34,8 +34,8 @@
             $shop["name"] = $row["name"];
             $shop["evaluation"] = $row["evaluation"];
             $shop["address"] = $row["address"];
-            $shop["created_at"] = $row["created_at"];
-            $shop["updated_at"] = $row["updated_at"];
+            $shop["latitude"] = $row["latitude"];
+            $shop["longitude"] = $row["longitude"];
 
             // Push single shop into final response array
             array_push($response["shops"], $shop);
