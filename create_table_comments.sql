@@ -1,9 +1,9 @@
 CREATE TABLE Comments
 (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(20) NOT NULL,
-    url VARCHAR(20) NOT NULL,
-    address VARCHAR(20) NOT NULL,
+    title VARCHAR(60) NOT NULL,
+    url VARCHAR(100) NOT NULL UNIQUE,
+    address VARCHAR(40) NOT NULL,
     evaluation DECIMAL(3,1),
     created_at timestamp default now(),
     updated_at timestamp,
