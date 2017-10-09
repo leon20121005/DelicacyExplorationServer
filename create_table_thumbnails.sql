@@ -1,10 +1,7 @@
-CREATE TABLE Comments
+CREATE TABLE Thumbnails
 (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(60) NOT NULL,
-    url VARCHAR(250) NOT NULL UNIQUE,
-    address VARCHAR(40) NOT NULL,
-    evaluation DECIMAL(3,1),
+    url VARCHAR(250) NOT NULL,
     created_at timestamp default now(),
     updated_at timestamp,
     shop_id INT NOT NULL,
