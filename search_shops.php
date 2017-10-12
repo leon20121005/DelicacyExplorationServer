@@ -12,7 +12,11 @@
     $keyword = $_GET["keyword"];
 
     // Get conditional shops from shops table
-    $query = "SELECT * FROM shops WHERE (name LIKE '%$keyword%' OR address LIKE '%$keyword%')";
+    $query = "SELECT shops.*,".
+            " thumbnails.url AS thumb".
+            " FROM shops".
+            " LEFT JOIN thumbnails ON shops.id = thumbnails.shop_id".
+            " WHERE (shops.name LIKE '%$keyword%' OR shops.address LIKE '%$keyword%')";
     $result = mysql_query($query);
     if (!$result)
     {
@@ -36,6 +40,15 @@
             $shop["address"] = $row["address"];
             $shop["latitude"] = $row["latitude"];
             $shop["longitude"] = $row["longitude"];
+
+            if ($row["thumb"] != null)
+            {
+                $shop["thumb"] = $row["thumb"];
+            }
+            else
+            {
+                $shop["thumb"] = "null";
+            }
 
             // Push single shop into final response array
             array_push($response["shops"], $shop);

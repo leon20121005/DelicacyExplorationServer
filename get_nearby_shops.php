@@ -15,10 +15,12 @@
     $limit = $_GET["limit"];
 
     // Get conditional shops from shops table. 6371 = earth radius (km)
-    $query = "SELECT *,".
-            " (6371 * acos(cos(radians($latitude)) * cos(radians(latitude)) * cos(radians(longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(latitude))))".
-            " AS distance".
+    $query = "SELECT shops.*,".
+            " (6371 * acos(cos(radians($latitude)) * cos(radians(shops.latitude)) * cos(radians(shops.longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(shops.latitude))))".
+            " AS distance,".
+            " thumbnails.url AS thumb".
             " FROM shops".
+            " LEFT JOIN thumbnails ON shops.id = thumbnails.shop_id".
             " HAVING distance < $radius".
             " ORDER BY distance".
             " LIMIT 0, $limit";
@@ -45,6 +47,15 @@
             $shop["address"] = $row["address"];
             $shop["latitude"] = $row["latitude"];
             $shop["longitude"] = $row["longitude"];
+
+            if ($row["thumb"] != null)
+            {
+                $shop["thumb"] = $row["thumb"];
+            }
+            else
+            {
+                $shop["thumb"] = "null";
+            }
 
             // Push single shop into final response array
             array_push($response["shops"], $shop);

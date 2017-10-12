@@ -33,18 +33,22 @@
     // Get conditional shops from shops table. 6371 = earth radius (km)
     if ($order == "distance")
     {
-        $query = "SELECT *,".
-                " (6371 * acos(cos(radians($latitude)) * cos(radians(latitude)) * cos(radians(longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(latitude))))".
-                " AS distance".
+        $query = "SELECT shops.*,".
+                " (6371 * acos(cos(radians($latitude)) * cos(radians(shops.latitude)) * cos(radians(shops.longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(shops.latitude))))".
+                " AS distance,".
+                " thumbnails.url AS thumb".
                 " FROM shops".
-                " WHERE id IN ($id_list_string)".
+                " LEFT JOIN thumbnails ON shops.id = thumbnails.shop_id".
+                " WHERE shops.id IN ($id_list_string)".
                 " ORDER BY $order";
     }
     else
     {
-        $query = "SELECT *".
+        $query = "SELECT shops.*,".
+                " thumbnails.url AS thumb".
                 " FROM shops".
-                " WHERE id IN ($id_list_string)".
+                " LEFT JOIN thumbnails ON shops.id = thumbnails.shop_id".
+                " WHERE shops.id IN ($id_list_string)".
                 " ORDER BY $order";
     }
 
@@ -71,6 +75,15 @@
             $shop["address"] = $row["address"];
             $shop["latitude"] = $row["latitude"];
             $shop["longitude"] = $row["longitude"];
+
+            if ($row["thumb"] != null)
+            {
+                $shop["thumb"] = $row["thumb"];
+            }
+            else
+            {
+                $shop["thumb"] = "null";
+            }
 
             // Push single shop into final response array
             array_push($response["shops"], $shop);
