@@ -10,7 +10,7 @@
 
     // Get all shops from shops table
     $query = "SELECT shops.*,".
-            " thumbnails.url AS thumb".
+            " thumbnails.url AS thumbnail".
             " FROM shops".
             " LEFT JOIN thumbnails ON shops.id = thumbnails.shop_id";
     $result = mysql_query($query);
@@ -37,13 +37,13 @@
             $shop["latitude"] = $row["latitude"];
             $shop["longitude"] = $row["longitude"];
 
-            if ($row["thumb"] != null)
+            if ($row["thumbnail"] != null)
             {
-                $shop["thumb"] = $row["thumb"];
+                $shop["thumbnail"] = $row["thumbnail"];
             }
             else
             {
-                $shop["thumb"] = "null";
+                $shop["thumbnail"] = "null";
             }
 
             // Push single shop into final response array
