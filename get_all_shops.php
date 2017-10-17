@@ -10,9 +10,12 @@
 
     // Get all shops from shops table
     $query = "SELECT shops.*,".
-            " thumbnails.url AS thumbnail".
+            " thumbnails.url AS thumbnail,".
+            " comments.url AS comment".
             " FROM shops".
-            " LEFT JOIN thumbnails ON shops.id = thumbnails.shop_id";
+            " LEFT JOIN thumbnails ON shops.id = thumbnails.shop_id".
+            " LEFT JOIN comments ON shops.id = comments.shop_id".
+            " LIMIT 100";
     $result = mysql_query($query);
     if (!$result)
     {
@@ -45,6 +48,8 @@
             {
                 $shop["thumbnail"] = "null";
             }
+
+            $shop["comment"] = $row["comment"];
 
             // Push single shop into final response array
             array_push($response["shops"], $shop);

@@ -36,18 +36,22 @@
         $query = "SELECT shops.*,".
                 " (6371 * acos(cos(radians($latitude)) * cos(radians(shops.latitude)) * cos(radians(shops.longitude) - radians($longitude)) + sin(radians($latitude)) * sin(radians(shops.latitude))))".
                 " AS distance,".
-                " thumbnails.url AS thumbnail".
+                " thumbnails.url AS thumbnail,".
+                " comments.url AS comment".
                 " FROM shops".
                 " LEFT JOIN thumbnails ON shops.id = thumbnails.shop_id".
+                " LEFT JOIN comments ON shops.id = comments.shop_id".
                 " WHERE shops.id IN ($id_list_string)".
                 " ORDER BY $order";
     }
     else
     {
         $query = "SELECT shops.*,".
-                " thumbnails.url AS thumbnail".
+                " thumbnails.url AS thumbnail,".
+                " comments.url AS comment".
                 " FROM shops".
                 " LEFT JOIN thumbnails ON shops.id = thumbnails.shop_id".
+                " LEFT JOIN comments ON shops.id = comments.shop_id".
                 " WHERE shops.id IN ($id_list_string)".
                 " ORDER BY $order";
     }
@@ -84,6 +88,8 @@
             {
                 $shop["thumbnail"] = "null";
             }
+
+            $shop["comment"] = $row["comment"];
 
             // Push single shop into final response array
             array_push($response["shops"], $shop);
